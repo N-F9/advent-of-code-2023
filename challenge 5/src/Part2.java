@@ -3,6 +3,8 @@ import java.util.*;
 
 public class Part2 {
 	public static void main(String[] args) throws Exception {
+		// 1865197342
+		
 		Scanner fs = new Scanner(new File(args[0]));
 
 		String[] l = fs.nextLine().split(" ");
@@ -39,18 +41,17 @@ public class Part2 {
 		long min = Long.MAX_VALUE;
 
 		for(int i = 1; i < l.length; i+=2) {
+			System.out.println(i);
 			for(int j = 0; j < Long.parseLong(l[i+1]); j++) {
 				long t = Long.parseLong(l[i]) + j;
-				boolean changed = false;
 				for(ArrayList<Range> range : ranges) {
 					for(Range r : range) {
 						long map = r.map(t);
-						if(map != -1 && !changed) {
+						if(map != -1) {
 							t = map;
-							changed = true;
+							break;
 						}
 					}
-					changed = false;
 				}
 				if (min > t) {
 					min = t;
@@ -62,7 +63,7 @@ public class Part2 {
 
 		fs.close();
 	}
-	
+
 	private static class Range {
 		long source;
 		long destination;
