@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class App {
+public class Part2 { // https://www.reddit.com/r/adventofcode/comments/18cr4xr/2023_day_7_better_example_input_not_a_spoiler/
 	public static void main(String[] args) throws Exception {
 		Scanner fs = new Scanner(new File(args[0]));
 
@@ -17,7 +17,13 @@ public class App {
 			list.add(new Hand(fs.next(), fs.nextInt()));
 		}
 
+		for (Hand lHand : list) {
+			System.out.println(lHand + " " + lHand.type());
+		}
+System.out.println("---------");
 		Collections.sort(list, new HandComparator());
+
+		System.out.println(list);
 
 		int sum = 0;
 		for (int index = 0; index < list.size(); index++) {
@@ -28,7 +34,7 @@ public class App {
 	}
 
 	public static class Hand {
-		static char[] Cards = {'A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2'};
+		static char[] Cards = {'A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2', 'J'};
 		// rank: Cards.length - i - 1
 		char[] hand;
 		int win;
@@ -64,25 +70,41 @@ public class App {
 			// 2 One pair, where two cards share one label, and the other three cards have a different label from the pair and each other: A23A4
 
 			// 1 High card, where all cards' labels are distinct: 23456
+			int j = -1;
+			if (map.get('J') != null) {
+				j = map.remove('J');
+			}
 			Integer[] ints = map.values().toArray(new Integer[0]);
+			
+			int max;
+			
+			if (ints.length == 0) {
+				max = 5;
+			} else {
+				max = ints[0];
+
+				for (int i = 1; i < ints.length; i++) {
+					max = Math.max(max, ints[i]);
+				}
+
+				if (j != -1) {
+					max += j;
+				}
+			}
+
+			if (j > -1 && map.size() == 0) {
+				map.put('J', 0);
+			}
 
 			if(map.size() == 1) {
 				return 7;
-			} else if(map.size() == 2) {				
-				int max = Math.max(ints[0], ints[1]);
-
+			} else if(map.size() == 2) {
 				if (max == 4) {
 					return 6;
 				} else {
 					return 5;
 				}
 			} else if (map.size() == 3) {
-				int max = ints[0];
-
-				for (int i = 1; i < ints.length; i++) {
-					max = Math.max(max, ints[i]);
-				}
-
 				if (max == 3) {
 					return 4;
 				} else {

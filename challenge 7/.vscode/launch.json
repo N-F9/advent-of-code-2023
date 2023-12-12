@@ -6,6 +6,14 @@
 	"configurations": [
 		{
 			"type": "java",
+			"name": "Part2",
+			"request": "launch",
+			"mainClass": "Part2",
+			"args": "input.txt",
+			"projectName": "challenge 7_b2d88ae8"
+		},
+		{
+			"type": "java",
 			"name": "App",
 			"request": "launch",
 			"mainClass": "App",
